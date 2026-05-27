@@ -5,16 +5,12 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A Multi-vendor Food. Grocery, eCommerce, Pharmacy & Parcel service.">
-
-  <!--For demo only-->
-<!--  <link rel="canonical" href="https://6ammart-web.6amtech.com/" />-->
-<!--  <meta name="robots" content="nofollow, noindex, max-snippet:1, max-video-preview:1, max-image-preview:standard">-->
+  <meta name="description" content="Fox Delivery - plataforma de delivery online.">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="StackFood">
+  <meta name="apple-mobile-web-app-title" content="Fox Delivery">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
@@ -24,7 +20,7 @@
 
   <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 
-  <title>6amMart</title>
+  <title>Fox Delivery</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" type="text/css" href="style.css">
   <script type="application/javascript" src="/assets/packages/flutter_inappwebview_web/assets/web/web_support.js" defer></script>
@@ -38,21 +34,11 @@
 </head>
 
 <body>
-  <!-- This script installs service_worker.js to provide PWA functionality to
-       application. For more information, see:
-       https://developers.google.com/web/fundamentals/primers/service-workers -->
-
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_MAP_KEY"></script>
-<!--  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>-->
+  <!-- Google Maps JavaScript API for Flutter web maps. -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDO64AHR6gdyDKTlMjXl7zAYnKC1ruw6zg"></script>
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
-
-<!--  <div class="center">-->
-<!--    <img src="logo.png" alt = "logo" width="300px" />-->
-<!--    <br>-->
-<!--    <div class="loader" style="width:300px;text-align: center;"><div class="continuous-4"></div></div>-->
-<!--  </div>-->
 
   <div class="preloader">
     <div class="preloader-container">
@@ -60,7 +46,6 @@
       <div class="loader"></div>
     </div>
   </div>
-
 
   <header class="header">
     <div class="header-container d-flex align-items-center justify-content-between">
@@ -79,124 +64,82 @@
     </div>
   </header>
 
-  <!-- Script Goes Here -->
   <script>
     // Check if localStorage is supported in the browser
-      if (typeof(Storage) !== "undefined") {
-        // Get the item from localStorage
-        var itemValue = localStorage.getItem("flutter.6ammart_theme");
-        // Check if the item exists
-        if (itemValue !== null) {
-          // Check the value of the item
-          if (itemValue === "true") {
-            // If the value is "true", add a class to the body
-            document.body.classList.add("theme-dark");
-          } else {
-            // If the value is not "true", remove the class from the body
-            document.body.classList.remove("theme-light");
-          }
+    if (typeof(Storage) !== "undefined") {
+      var itemValue = localStorage.getItem("flutter.6ammart_theme");
+      if (itemValue !== null) {
+        if (itemValue === "true") {
+          document.body.classList.add("theme-dark");
         } else {
-          console.log("Item not found in localStorage");
+          document.body.classList.remove("theme-light");
         }
       } else {
-        console.log("localStorage is not supported in this browser");
+        console.log("Item not found in localStorage");
       }
-
+    } else {
+      console.log("localStorage is not supported in this browser");
+    }
   </script>
 
   <script>
     document.querySelectorAll("img.svg").forEach(function (img) {
-    var imgID = img.getAttribute("id");
-    var imgClass = img.getAttribute("class");
-    var imgURL = img.getAttribute("src");
-    // Create a new XMLHttpRequest
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", imgURL, true);
-    // Set the responseType to "document" to parse the response as an XML document
-    xhr.responseType = "document";
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        var data = xhr.response;
-        // Get the SVG tag from the response, ignore the rest
-        var svg = data.querySelector("svg");
-        // Add replaced image's ID to the new SVG
-        if (typeof imgID !== "undefined") {
-          svg.setAttribute("id", imgID);
+      var imgID = img.getAttribute("id");
+      var imgClass = img.getAttribute("class");
+      var imgURL = img.getAttribute("src");
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", imgURL, true);
+      xhr.responseType = "document";
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          var data = xhr.response;
+          var svg = data.querySelector("svg");
+          if (typeof imgID !== "undefined") {
+            svg.setAttribute("id", imgID);
+          }
+          if (typeof imgClass !== "undefined") {
+            svg.setAttribute("class", imgClass + " replaced-svg");
+          }
+          svg.removeAttribute("xmlns:a");
+          if (!svg.getAttribute("viewBox") && svg.getAttribute("height") && svg.getAttribute("width")) {
+            svg.setAttribute("viewBox", "0 0 " + svg.getAttribute("height") + " " + svg.getAttribute("width"));
+          }
+          img.parentNode.replaceChild(svg, img);
         }
-        // Add replaced image's classes to the new SVG
-        if (typeof imgClass !== "undefined") {
-          svg.setAttribute("class", imgClass + " replaced-svg");
-        }
-        // Remove any invalid XML tags
-        svg.removeAttribute("xmlns:a");
-        // Check if the viewport is set; set it if not
-        if (!svg.getAttribute("viewBox") && svg.getAttribute("height") && svg.getAttribute("width")) {
-          svg.setAttribute("viewBox", "0 0 " + svg.getAttribute("height") + " " + svg.getAttribute("width"));
-        }
-        // Replace the image with the new SVG
-        img.parentNode.replaceChild(svg, img);
-      }
-    };
-    xhr.send();
-  });
+      };
+      xhr.send();
+    });
   </script>
-
-<!--  <script>-->
-<!--    {{flutter_bootstrap_js}}-->
-<!--  </script>-->
 
   <script>
     window.addEventListener('load', function(ev) {
-       {{flutter_js}}
-       {{flutter_build_config}}
+      {{flutter_js}}
+      {{flutter_build_config}}
 
-       _flutter.loader.load({
-         serviceWorker: {
-           serviceWorkerVersion: {{flutter_service_worker_version}},
-         },
-         onEntrypointLoaded: function(engineInitializer) {
-         let config = { renderer: 'html' };
-           engineInitializer.initializeEngine(config).then(function(appRunner) {
-             if(document.getElementById('splash'))
-               document.getElementById('splash').remove();
-             appRunner.runApp();
-           });
-         }
-       });
-     });
+      _flutter.loader.load({
+        serviceWorker: {
+          serviceWorkerVersion: {{flutter_service_worker_version}},
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          let config = { renderer: 'html' };
+          engineInitializer.initializeEngine(config).then(function(appRunner) {
+            if(document.getElementById('splash')) {
+              document.getElementById('splash').remove();
+            }
+            appRunner.runApp();
+          });
+        }
+      });
+    });
   </script>
 
   <script>
-    // Delay the removal of the preloader by 500 milliseconds
     function removePreloader() {
       const preloader = document.querySelector('.preloader');
       if (preloader) {
         preloader.remove();
       }
     }
-  </script>
-
-  <script>
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "firebase/app";
-    import { getAnalytics } from "firebase/analytics";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyDFN-73p8zKVZbA0i5DtO215XzAb-xuGSE",
-      authDomain: "ammart-8885e.firebaseapp.com",
-      databaseURL: "https://ammart-8885e-default-rtdb.firebaseio.com",
-      projectId: "ammart-8885e",
-      storageBucket: "ammart-8885e.appspot.com",
-      messagingSenderId: "1000163153346",
-      appId: "1:1000163153346:web:4f702a4b5adbd5c906b25b",
-      measurementId: "G-L1GNL2YV61"
-    };
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
   </script>
 
 </body>
