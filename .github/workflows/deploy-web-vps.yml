@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-web:
+  deploy-web:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,8 +25,13 @@ jobs:
           flutter pub get
           flutter build web --release
 
-      - name: Upload web artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: foxgo-web
-          path: flutter-app/build/web
+      - name: Deploy to VPS
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.VPS_HOST }}
+          REMOTE_USER: ${{ secrets.VPS_USER }}
+          REMOTE_PORT: ${{ secrets.VPS_PORT || '22' }}
+          SOURCE: flutter-app/build/web/
+          TARGET: /opt/foxgo/admin/web_public/
+          ARGS: -rlgoDzvc --delete
