@@ -1,3 +1,5 @@
+import com.android.build.gradle.BaseExtension
+
 allprojects {
     repositories {
         google()
@@ -13,8 +15,25 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 
+fun Project.configureAndroidJava17() {
+    extensions.configure<BaseExtension>("android") {
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
+        }
+    }
+}
+
 subprojects {
     project.evaluationDependsOn(":app")
+
+    plugins.withId("com.android.application") {
+        configureAndroidJava17()
+    }
+
+    plugins.withId("com.android.library") {
+        configureAndroidJava17()
+    }
 
     tasks.withType<JavaCompile>().configureEach {
         sourceCompatibility = JavaVersion.VERSION_17.toString()
