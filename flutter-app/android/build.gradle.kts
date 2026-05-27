@@ -1,5 +1,3 @@
-import com.android.build.gradle.BaseExtension
-
 allprojects {
     repositories {
         google()
@@ -15,34 +13,17 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 
-fun Project.configureAndroidJava17() {
-    extensions.configure<BaseExtension>("android") {
-        compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
-        }
-    }
-}
-
 subprojects {
     project.evaluationDependsOn(":app")
 
-    plugins.withId("com.android.application") {
-        configureAndroidJava17()
-    }
-
-    plugins.withId("com.android.library") {
-        configureAndroidJava17()
-    }
-
     tasks.withType<JavaCompile>().configureEach {
-        sourceCompatibility = JavaVersion.VERSION_17.toString()
-        targetCompatibility = JavaVersion.VERSION_17.toString()
+        sourceCompatibility = JavaVersion.VERSION_1_8.toString()
+        targetCompatibility = JavaVersion.VERSION_1_8.toString()
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
         }
     }
 }
