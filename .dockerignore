@@ -1,0 +1,11 @@
+.git
+.github
+**/build
+**/.dart_tool
+**/.pub-cache
+**/.gradle
+**/android/app/debug
+**/android/app/profile
+**/android/app/release
+*.log
+.DS_Store
