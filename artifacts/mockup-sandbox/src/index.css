@@ -1,0 +1,324 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+}
+
+/* LIGHT MODE - Default theme with placeholder values */
+:root {
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+  --opaque-button-border-intensity: -8;
+
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
+
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+  --sidebar: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 240 5.9% 10%;
+
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: .5rem;
+  --spacing: 0.25rem;
+}
+
+/* DARK MODE */
+.dark {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+  --opaque-button-border-intensity: 9;
+
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+  --sidebar: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 224.3 76.3% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 240 4.9% 83.9%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Hide ugly search cancel button in Chrome */
+  input[type="search"]::-webkit-search-cancel-button {
+    @apply hidden;
+  }
+
+  /* Placeholder styling for contentEditable div */
+  [contenteditable][data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+  }
+}
+
+/* ============================================================
+   FOX DELIVERY · Mockup animations (iFood / Uber Eats style)
+   Global, automatic. No need to edit individual mockup files.
+   ============================================================ */
+
+@keyframes fox-screen-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.995); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fox-fade-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fox-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fox-slide-up {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fox-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fox-pulse-dot {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%      { transform: scale(1.35); opacity: 0.85; }
+}
+@keyframes fox-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes fox-progress-stripe {
+  from { background-position: 0 0; }
+  to   { background-position: 40px 0; }
+}
+@keyframes fox-bounce-soft {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+@keyframes fox-spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- 1. Screen entrance (the 390x844 root) ---------- */
+body > #root > .w-\[390px\],
+body > #root > div > .w-\[390px\] {
+  animation: fox-screen-in 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ---------- 2. Top header slides down ---------- */
+.w-\[390px\] > .bg-white.pt-14,
+.w-\[390px\] > .pt-14 {
+  animation: fox-fade-down 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 80ms;
+}
+
+/* ---------- 3. Bottom navigation slides up ---------- */
+.w-\[390px\] .absolute.bottom-0 {
+  animation: fox-slide-up 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 180ms;
+}
+
+/* ---------- 4. Stagger: grid items fade-up ---------- */
+.w-\[390px\] .grid > * {
+  animation: fox-fade-up 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.w-\[390px\] .grid > *:nth-child(1)  { animation-delay: 140ms; }
+.w-\[390px\] .grid > *:nth-child(2)  { animation-delay: 190ms; }
+.w-\[390px\] .grid > *:nth-child(3)  { animation-delay: 240ms; }
+.w-\[390px\] .grid > *:nth-child(4)  { animation-delay: 290ms; }
+.w-\[390px\] .grid > *:nth-child(5)  { animation-delay: 340ms; }
+.w-\[390px\] .grid > *:nth-child(6)  { animation-delay: 390ms; }
+.w-\[390px\] .grid > *:nth-child(7)  { animation-delay: 440ms; }
+.w-\[390px\] .grid > *:nth-child(8)  { animation-delay: 490ms; }
+.w-\[390px\] .grid > *:nth-child(9)  { animation-delay: 540ms; }
+.w-\[390px\] .grid > *:nth-child(10) { animation-delay: 590ms; }
+.w-\[390px\] .grid > *:nth-child(n+11) { animation-delay: 640ms; }
+
+/* ---------- 5. Scroll content: stagger direct children ---------- */
+.w-\[390px\] .overflow-y-auto > * {
+  animation: fox-fade-up 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.w-\[390px\] .overflow-y-auto > *:nth-child(1) { animation-delay: 120ms; }
+.w-\[390px\] .overflow-y-auto > *:nth-child(2) { animation-delay: 180ms; }
+.w-\[390px\] .overflow-y-auto > *:nth-child(3) { animation-delay: 240ms; }
+.w-\[390px\] .overflow-y-auto > *:nth-child(4) { animation-delay: 300ms; }
+.w-\[390px\] .overflow-y-auto > *:nth-child(5) { animation-delay: 360ms; }
+.w-\[390px\] .overflow-y-auto > *:nth-child(6) { animation-delay: 420ms; }
+.w-\[390px\] .overflow-y-auto > *:nth-child(n+7) { animation-delay: 480ms; }
+
+/* ---------- 6. Flex columns inside the screen: subtle stagger ---------- */
+.w-\[390px\] > .flex.flex-col > *,
+.w-\[390px\] > div > .flex.flex-col > * {
+  /* avoided to not double-animate; nav/header/scroll already covered */
+}
+
+/* ---------- 7. Notification dots / badges pulse ---------- */
+.w-\[390px\] .bg-\[\#FF6B00\].rounded-full.border-2,
+.w-\[390px\] .bg-red-500.rounded-full.border-2 {
+  animation: fox-pulse-dot 1.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* ---------- 8. Press feedback on every button ---------- */
+.w-\[390px\] button {
+  transition: transform 120ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 200ms ease;
+}
+.w-\[390px\] button:active {
+  transform: scale(0.96);
+}
+
+/* ---------- 9. Subtle hover lift on cards (desktop preview) ---------- */
+@media (hover: hover) {
+  .w-\[390px\] button.rounded-3xl,
+  .w-\[390px\] button.rounded-2xl,
+  .w-\[390px\] a.rounded-3xl,
+  .w-\[390px\] a.rounded-2xl {
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease;
+  }
+  .w-\[390px\] button.rounded-3xl:hover,
+  .w-\[390px\] button.rounded-2xl:hover,
+  .w-\[390px\] a.rounded-3xl:hover,
+  .w-\[390px\] a.rounded-2xl:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* ---------- 10. Shimmer/skeleton if .fox-shimmer applied ---------- */
+.fox-shimmer {
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0.04) 0%,
+    rgba(0,0,0,0.08) 50%,
+    rgba(0,0,0,0.04) 100%);
+  background-size: 200% 100%;
+  animation: fox-shimmer 1.6s ease-in-out infinite;
+}
+
+/* ---------- 11. Progress bar stripes for tracking screens ---------- */
+.fox-progress {
+  background-image: linear-gradient(45deg,
+    rgba(255,255,255,0.25) 25%, transparent 25%,
+    transparent 50%, rgba(255,255,255,0.25) 50%,
+    rgba(255,255,255,0.25) 75%, transparent 75%, transparent);
+  background-size: 24px 24px;
+  animation: fox-progress-stripe 1.2s linear infinite;
+}
+
+/* ---------- 12. Fox logo on splash gently bounces ---------- */
+.w-\[390px\] > div > svg[viewBox="0 0 80 80"] {
+  animation: fox-bounce-soft 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* ---------- 13. Reduced motion respect ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .w-\[390px\] *,
+  .w-\[390px\] *::before,
+  .w-\[390px\] *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
