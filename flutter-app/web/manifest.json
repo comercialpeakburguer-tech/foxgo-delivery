@@ -1,0 +1,23 @@
+{
+    "name": "Fox Delivery",
+    "short_name": "Fox Delivery",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#2A9849",
+    "theme_color": "#2A9849",
+    "description": "Uma plataforma com vários fornecedores: alimentos, supermercado, comércio eletrônico, farmácia e serviço de entrega.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "favicon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "favicon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
