@@ -169,16 +169,123 @@ class SplashScreenState extends State<SplashScreen> {
 
     return Scaffold(
       key: _globalKey,
+      backgroundColor: const Color(0xFFFCFCFC),
       body: GetBuilder<SplashController>(builder: (splashController) {
-        return Center(
-          child: splashController.hasConnection ? Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(Images.logo, width: 200),
-              const SizedBox(height: Dimensions.paddingSizeSmall),
-            ],
-          ) : NoInternetScreen(child: SplashScreen(body: widget.body, deeplinkUrl: widget.deeplinkUrl)),
-        );
+        return splashController.hasConnection
+            ? Stack(
+                children: [
+                  Positioned(
+                    top: -120,
+                    left: -120,
+                    right: -120,
+                    child: Container(
+                      height: 400,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            const Color(0xFFFF6B00).withValues(alpha: 0.10),
+                            const Color(0xFFFF6B00).withValues(alpha: 0.0),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: -100,
+                    right: -100,
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: [
+                            const Color(0xFFFF6B00).withValues(alpha: 0.08),
+                            const Color(0xFFFF6B00).withValues(alpha: 0.0),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 120,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(32),
+                            border: Border.all(color: const Color(0xFFF0F0F0)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFFFF6B00).withValues(alpha: 0.20),
+                                blurRadius: 24,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Image.asset(Images.logo, fit: BoxFit.contain),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        RichText(
+                          text: const TextSpan(
+                            style: TextStyle(
+                              fontSize: 38,
+                              fontWeight: FontWeight.w900,
+                              color: Color(0xFF1A1A2E),
+                              letterSpacing: -1,
+                              height: 1,
+                            ),
+                            children: [
+                              TextSpan(text: 'Fox'),
+                              TextSpan(text: 'Delivery', style: TextStyle(color: Color(0xFFFF6B00))),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'FOXGODELIVERY.COM.BR',
+                          style: TextStyle(
+                            color: Color(0xFFAAAAAA),
+                            fontSize: 12,
+                            letterSpacing: 2.4,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 60,
+                    left: 0,
+                    right: 0,
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 32,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFF6B00),
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'Carregando...',
+                          style: TextStyle(color: Color(0xFFCCCCCC), fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : NoInternetScreen(child: SplashScreen(body: widget.body, deeplinkUrl: widget.deeplinkUrl));
       }),
     );
   }
