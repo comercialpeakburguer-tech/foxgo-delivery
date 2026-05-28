@@ -7,7 +7,6 @@ import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:sixam_mart/api/api_checker.dart';
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
-import 'package:sixam_mart/common/models/error_response.dart';
 import 'package:sixam_mart/common/models/module_model.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
@@ -56,9 +55,6 @@ class ApiClient extends GetxService {
     header.addAll({
       'Content-Type': 'application/json; charset=UTF-8',
       AppConstants.zoneId: (zoneId != null && fromModule) ? '$zoneId' : zoneIDs != null ? jsonEncode(zoneIDs) : '',
-
-      ///this will add in ride module
-      // AppConstants.operationAreaId: operationIds != null ? jsonEncode(operationIds) : '',
       AppConstants.localizationKey: languageCode ?? AppConstants.languages[0].languageCode!,
       AppConstants.latitude: latitude != null ? jsonEncode(latitude) : '',
       AppConstants.longitude: longitude != null ? jsonEncode(longitude) : '',
@@ -109,6 +105,9 @@ class ApiClient extends GetxService {
       );
       return handleResponse(response, uri, handleError);
     } catch (e) {
+      if (kDebugMode) {
+        print('------------${e.toString()}');
+      }
       return Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
@@ -137,9 +136,7 @@ class ApiClient extends GetxService {
         if (multipart.file != null) {
           if (kIsWeb) {
             Uint8List bytes = await multipart.file!.readAsBytes();
-
             http.MultipartFile part = http.MultipartFile.fromBytes(multipart.key, bytes, filename: 'image.jpg', contentType: MediaType('image', 'jpeg'));
-
             request.files.add(part);
           } else {
             File file = File(multipart.file!.path);
@@ -170,6 +167,9 @@ class ApiClient extends GetxService {
       http.Response response = await http.Response.fromStream(await request.send());
       return handleResponse(response, uri, handleError);
     } catch (e) {
+      if (kDebugMode) {
+        print('------------${e.toString()}');
+      }
       return Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
@@ -185,6 +185,9 @@ class ApiClient extends GetxService {
       http.Response response = await http.put(Uri.parse(appBaseUrl + uri), body: jsonEncode(body), headers: headers ?? _mainHeaders).timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(response, uri, handleError);
     } catch (e) {
+      if (kDebugMode) {
+        print('------------${e.toString()}');
+      }
       return Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
@@ -203,8 +206,32 @@ class ApiClient extends GetxService {
           .timeout(Duration(seconds: timeoutInSeconds));
       return handleResponse(response, uri, handleError);
     } catch (e) {
+      if (kDebugMode) {
+        print('------------${e.toString()}');
+      }
       return Response(statusCode: 1, statusText: noInternetMessage);
     }
+  }
+
+  String _extractApiErrorMessage(dynamic body, String? fallback) {
+    try {
+      if (body is Map) {
+        if (body['message'] != null && body['message'].toString().isNotEmpty) {
+          return body['message'].toString();
+        }
+        if (body['errors'] is List && (body['errors'] as List).isNotEmpty) {
+          final dynamic firstError = (body['errors'] as List).first;
+          if (firstError is Map && firstError['message'] != null) {
+            return firstError['message'].toString();
+          }
+          return firstError.toString();
+        }
+      }
+      if (body is String && body.isNotEmpty) {
+        return body;
+      }
+    } catch (_) {}
+    return fallback ?? noInternetMessage;
   }
 
   Response handleResponse(
@@ -228,26 +255,18 @@ class ApiClient extends GetxService {
       statusCode: response.statusCode,
       statusText: response.reasonPhrase,
     );
-    if (response0.statusCode != 200 &&
-        response0.body != null &&
-        response0.body is! String) {
-      if (response0.body.toString().startsWith('{errors: [{code:')) {
-        ErrorResponse errorResponse = ErrorResponse.fromJson(response0.body);
-        response0 = Response(
-          statusCode: response0.statusCode,
-          body: response0.body,
-          statusText: errorResponse.errors![0].message,
-        );
-      } else if (response0.body.toString().startsWith('{response_code: zone_404, message:')) {
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: response0.body['message']);
-      } else if(response0.body.toString().startsWith('{response_code: route_404, message:')) {
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: response0.body['message']);
-      }else if (response0.body.toString().startsWith('{message')) {
-        response0 = Response(statusCode: response0.statusCode, body: response0.body, statusText: response0.body['message']);
-      }
-    } else if (response0.statusCode != 200 && response0.body == null) {
-      response0 = Response(statusCode: 0, statusText: noInternetMessage);
+
+    if (response0.statusCode != 200) {
+      response0 = Response(
+        statusCode: response0.statusCode,
+        body: response0.body,
+        bodyString: response0.bodyString,
+        headers: response0.headers,
+        request: response0.request,
+        statusText: _extractApiErrorMessage(response0.body, response0.statusText),
+      );
     }
+
     if (kDebugMode) {
       print('====> API Response: [${response0.statusCode}] $uri');
       if (!ResponsiveHelper.isWeb() || response.statusCode != 500) {
